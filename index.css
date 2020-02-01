@@ -1,3 +1,31 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+}
+h2{
+    margin-top: 0;
+    text-align: center;
+}
+ul{ 
+    margin-bottom: 0;
+}
 img{
     height: 100px;
+}
+
+.search{
+    background-color: beige;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.general, .currency{
+    background-color: lavender;
+
+}
+.weather, .holidays{
+    background-color: beige;
+
 }

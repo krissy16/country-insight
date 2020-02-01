@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <section>
+    <section class="search">
         <form>
             <label for="country"><h1>Please enter a country! </h1></label>
-            <input id="country" type="text" name="country" value="china">
+            <input id="country" type="text" name="country" value="china" required>
             <button type="submit">Submit</button>
         </form>
     </section>
@@ -24,12 +24,15 @@
         </section>
         <section class="weather">
             <h2>Weather</h2>
+            <ul class="weather-info"></ul>
         </section>
         <section class="currency">
             <h2>Currency</h2>
+            <ul class="currency-info"></ul>
         </section>
         <section class="holidays">
             <h2>Holidays</h2>
+            <ul class="holiday-info"></ul>
         </section>
     </section>
 
