@@ -6,7 +6,17 @@ function handleSubmit(){
         const country = $('#country').val();
         clearOld();
         generateGeneral(country);
+        showHidden();
     });
+}
+
+function scrollTo(place){
+    $("html, body").stop().animate({scrollTop:$(`.${place}`).offset().top}, '500');
+}
+
+function showHidden(){
+    $('.hidden').removeClass('hidden');
+
 }
 
 function clearOld(){
@@ -15,10 +25,19 @@ function clearOld(){
     $('.weather-info').empty();
     $('.currency-info').empty();
     $('.holiday-info').empty();
-
+    if($('.main-curr-group')) $('.main-curr-group').remove();
+    $('.error').each(function(item){$(this).remove();});
 }
 
- function displayFailure(error){
+ function displayFailure(error, location){
+    $(`.${location}`).append('<p class="error">Results could not be retrieved!</p>');
+    console.log(error);
+
+     if(location==='general'){
+        displayFailure('Main API Failed!', 'weather');
+        displayFailure('Main API Failed!', 'currency');
+        displayFailure('Main API Failed!', 'holidays');
+    }
 
  }
 
@@ -27,6 +46,7 @@ function clearOld(){
     generateWeather(basicInfo.capital, basicInfo.alpha2Code);
     generateCurrency(basicInfo.currencies[0].code);
     generateHolidays(basicInfo.alpha2Code);
+    scrollTo('results');
  }
 
 // ====================================================
@@ -47,25 +67,25 @@ function generateGeneral(country){
             afterWait(responseJson[0]);
         })
         .catch(err => {
-            console.log(err.message);
-            displayFailure(err.message);
+            displayFailure(err.message,'general');
         });
 }
 
 function populateGeneral(country){
     const location ='.general-info';
-    addInfo('Name', country.name, location);
-    addInfo('Capital', country.capital, location);
-    addInfo('Population', country.population.toLocaleString(), location);
-    addInfo('Language', country.languages[0].name, location);
-    addFlag('Flag', country.flag, country.name);
+    addFlag('Flag of '+country.name, country.flag, country.name);
+    addInfo('Population: ', country.population.toLocaleString(), location,'population');
+    addInfo('Capital City: ', country.capital, location,'capital');
+    addInfo('Language: ', country.languages[0].name, location,'language');
+    addInfo('Region: ',country.subregion,location,'region')
 }
 
 
 
-function addFlag(title, data, countryName){
+function addFlag(caption, flag, countryName){
     const description = `Flag of ` + countryName;
-    $('.general-info').append(`<li>${title}: <img src="${data}" alt="${description}"></li>`);
+    
+    $('.general-info').append(`<li class="flag-group"><figure><img class="flag" src="${flag}" alt="${description}"><figcaption class="caption">${caption}</figcaption></figure></li>`);
 }
 
 // ====================================================
@@ -88,35 +108,19 @@ function generateWeather(capital, countryCode){
             populateWeather(responseJson);
         })
         .catch(err => {
-            console.log(err.message);
-            displayFailure(err.message);
+            displayFailure(err.message, 'weather');
         });
 }
 
 function populateWeather(response){
     const location ='.weather-info';
     const weather = response.data[0];
-    addInfo('Time',formatDate(weather.ob_time),location);
-    addInfo('Temperature',weather.temp+'\u00B0F',location)
     addWeatherIcon(weather.weather);
-    addInfo('Time of Day',weather.pod,location);
-
-}
-
-function formatDate(date){
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-    const year = date.slice(0,4);
-    const month= date.slice(5,7);
-    const day = date.slice(8,10);
-    const hour = date.slice(11,16)
-    let formatedDate= months[parseInt(month)-1] +" "+ day+", "+year+" about "+hour;
-
-    return formatedDate;
+    addInfo('',weather.temp+'\u00B0F',location,'temperature');
 }
 
 function addWeatherIcon(weather){
-    $('.weather-info').append(`<li><img src="/weather-icons/${weather.icon}.png" alt="${weather.description}"></li>`);
+    $('.weather-info').append(`<li class="weather-icon"><img src="/weather-icons/${weather.icon}.png" alt="${weather.description}"></li>`);
 }
 // ====================================================
 // ================== Currency Info ====================
@@ -136,18 +140,19 @@ function generateCurrency(currencyCode){
             populateCurrency(responseJson);
         })
         .catch(err => {
-            console.log(err.message);
-            displayFailure(err.message);
+            displayFailure(err.message, 'currency');
         });
 }
 
 function populateCurrency(response){
     let keys = [];
     Object.keys(response.rates).map(key => keys.push(key));
-    // addInfo(key,response.rates[key],'.currency-info')
-    addInfo('Currency','1 '+keys[0],'.currency-info')
+
+    let mainCurr = `<div class="main-curr-group"><p class="main-currency">1 ${keys[0]}</p><img class="arrow" src="images/right-arrow.png" alt="arrow pointing right"></div>`;
+    $(mainCurr).insertAfter($(".currency-title"));
+
     for(let i = 1 ; i < 10; i++){
-        addInfo(keys[i],response.rates[keys[i]],'.currency-info')
+        addInfo(keys[i]+': ',response.rates[keys[i]],'.currency-info','currency-item');
     }
 }
 
@@ -171,27 +176,41 @@ function generateHolidays(countryCode){
             populateHolidays(responseJson);
         })
         .catch(err => {
-            console.log(err.message);
-            displayFailure(err.message);
+            displayFailure(err.message, 'holidays');
         });
 }
 
 function populateHolidays(response){
     const holidayList = response.response.holidays;
-    for(let i=0; i<10; i++){
+    for(let i=0; i<20; i++){
         const dateObj =holidayList[i].date.datetime;
-        const date= dateObj.month+"/"+dateObj.day+"/"+dateObj.year;
+        const date= dateObj.month+"/"+dateObj.day;
         const name=holidayList[i].name;
         const description = holidayList[i].description;
+        
+        //if it isnt first item, check for repeats
         if(i!=0)
             if(name !== holidayList[i-1].name)
-                addInfo(date, name, '.holiday-info');
+                //if not a repeat add holiday to list
+                addInfo(date+': ', name, '.holiday-info', 'holiday-item');
     }
 }
 
-function addInfo(title, data, location){
-    $(location).append(`<li>${title}: ${data}</li>`);
+function addInfo(title, data, location, classId){
+    $(location).append(`<li class="${classId}">${title} ${data}</li>`);
+}
+
+function handleBack(){
+    $('.back-txt').on('click', function(event){
+        event.preventDefault();
+        scrollTo('search');
+    });
 }
 
 
-$(handleSubmit);
+function handleClicks(){
+    handleSubmit();
+    handleBack();
+}
+
+$(handleClicks);

@@ -13,29 +13,39 @@
         <form>
             <label for="country"><h1>Please enter a country! </h1></label>
             <input id="country" type="text" name="country" value="china" required>
-            <button type="submit">Submit</button>
+            <button class="submit-btn" type="submit">Submit</button>
         </form>
     </section>
 
     <section class="results hidden">
-        <section class="general">
+        <section class="general section">
             <h2>Country</h2>
             <ul class="general-info"></ul>
         </section>
-        <section class="weather">
+        <div class="left"><section class="weather section">
             <h2>Weather</h2>
             <ul class="weather-info"></ul>
         </section>
-        <section class="currency">
-            <h2>Currency</h2>
+        <section class="currency section">
+            <h2 class="currency-title">Currency</h2>
             <ul class="currency-info"></ul>
-        </section>
-        <section class="holidays">
+        </section></div>
+        <section class="holidays section">
             <h2>Holidays</h2>
             <ul class="holiday-info"></ul>
         </section>
     </section>
-
+    <p  class="back hidden"><a class="back-txt" href="">Back to top</a></p>
+    <footer class="hidden">
+        <p>App By Krissandra Charmant</p>
+        <p>Made possible by 
+            <a href="https://restcountries.eu/">RestCountries</a>
+            <a href="https://www.exchangerate-api.com/">ExchangeRate</a>
+            <a href="https://calendarific.com/">Calendarific</a>
+            <a href="https://www.weatherbit.io">Weatherbit</a>
+            APIs
+        </p>
+    </footer>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

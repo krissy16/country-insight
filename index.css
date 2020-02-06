@@ -1,10 +1,20 @@
-body{
+*{
     box-sizing: border-box;
+}
+body{
     margin: 0;
+}
+.hidden, .hidden.results{
+    display: none;
 }
 h2{
     margin-top: 0;
     text-align: center;
+}
+.section{
+    padding:5% 10%;
+    width:80%;
+    margin: 15px auto;
 }
 ul{ 
     margin-bottom: 0;
@@ -14,18 +24,113 @@ img{
 }
 
 .search{
-    background-color: beige;
+    background-color: lavenderblush;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+form{
+    text-align: center;
+}
+#country{
+    display: block;
+    width: 100%;
+}
+.submit-btn{
+    display: inline-block;
+    margin: 5px auto;
+}
+
 .general, .currency{
     background-color: lavender;
 
 }
 .weather, .holidays{
-    background-color: beige;
+    background-color: lavenderblush;
+
+}
+
+.general-info, .currency-info, .holiday-info{
+    list-style: circle;
+    line-height: 30px;
+}
+.flag-group{
+    margin: 5px auto;
+    display: block;
+    position: relative;
+    right: 40px;
+    text-align: center;
+    width: calc(100% + 40px);
+}
+
+
+.weather-info{
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+.temperature{
+    font-size: 24px;
+}
+
+.currency{
+    display: flex;
+    flex-wrap: wrap;
+}
+.currency-title{
+    flex-basis: 100%;
+}
+.main-curr-group{
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    width:20%;
+    text-align: center;
+}
+.arrow{
+    height: 30px;
+    margin: auto 10px;
+}
+.currency-info{
+    width: 50%;
+    display: inline-block;
+    margin-left: 10px;
+}
+.back{
+    text-align: center;
+}
+footer{
+    background-color: lavender;
+    text-align: center;
+    padding: 10px 0;
+}
+footer p{
+    margin: 0;
+}
+
+
+@media only screen and (min-width: 800px){
+    .results{
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .general{
+        flex-basis: 100%;
+    }
+    .flag-group{
+        width: 50%;
+        float: left;
+    }
+    .left, .holidays{
+        flex-basis: 50%;
+    }
+    .currency, .weather{
+        margin-left: 0;
+        width: 95%;
+    }
 
 }
