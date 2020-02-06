@@ -131,7 +131,7 @@ function populateWeather(response){
 }
 
 function addWeatherIcon(weather){
-    $('.weather-info').append(`<li class="weather-icon"><img src="/weather-icons/${weather.icon}.png" alt="${weather.description}"></li>`);
+    $('.weather-info').append(`<li class="weather-icon"><img src="weather-icons/${weather.icon}.png" alt="${weather.description}"></li>`);
 }
 // ====================================================
 // ================== Currency Info ====================
