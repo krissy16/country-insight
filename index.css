@@ -4,9 +4,6 @@
 body{
     margin: 0;
 }
-.hidden, .hidden.results{
-    display: none;
-}
 h2{
     margin-top: 0;
     text-align: center;
@@ -17,10 +14,24 @@ h2{
     margin: 15px auto;
 }
 ul{ 
-    margin-bottom: 0;
+    margin: 0;
 }
 img{
     height: 100px;
+}
+.more{
+    height: fit-content;
+    margin: 0 auto;
+    display: block;
+    width: 50px;
+    flex-basis: 100%;
+}
+.more-arrow{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 30px;
+    width: 100%;
 }
 
 .search{
@@ -52,7 +63,7 @@ form{
 
 }
 
-.general-info, .currency-info, .holiday-info{
+.general-info, .currency-info, .holiday-info, .more-weather{
     list-style: circle;
     line-height: 30px;
 }
@@ -70,11 +81,16 @@ form{
     list-style: none;
     display: flex;
     align-items: center;
+    padding: 0;
+    flex-wrap: wrap;
 }
 .temperature{
     font-size: 24px;
 }
-
+.more-weather{
+    flex-basis: 100%;
+    margin-left: 40px;
+}
 .currency{
     display: flex;
     flex-wrap: wrap;
@@ -133,4 +149,8 @@ footer p{
         width: 95%;
     }
 
+}
+
+.hidden, .hidden.results{
+    display: none;
 }

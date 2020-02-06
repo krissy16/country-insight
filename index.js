@@ -7,6 +7,7 @@ function handleSubmit(){
         clearOld();
         generateGeneral(country);
         showHidden();
+        scrollTo('results');
     });
 }
 
@@ -27,6 +28,7 @@ function clearOld(){
     $('.holiday-info').empty();
     if($('.main-curr-group')) $('.main-curr-group').remove();
     $('.error').each(function(item){$(this).remove();});
+    $('.more').css('transform','none').removeClass('hidden');
 }
 
  function displayFailure(error, location){
@@ -39,6 +41,8 @@ function clearOld(){
         displayFailure('Main API Failed!', 'holidays');
     }
 
+    $('.more').addClass('hidden');
+
  }
 
  function afterWait(basicInfo){
@@ -46,14 +50,13 @@ function clearOld(){
     generateWeather(basicInfo.capital, basicInfo.alpha2Code);
     generateCurrency(basicInfo.currencies[0].code);
     generateHolidays(basicInfo.alpha2Code);
-    scrollTo('results');
  }
 
 // ====================================================
 // ================== General Info ====================
 // ====================================================
 function generateGeneral(country){
-    let url = "https://restcountries.eu/rest/v2/name/" + country;
+    let url = "https://restcountries.eu/rest/v2/name/" + country +"?fullText=true";
     console.log("Retrieving general results from " + url);
 
     fetch(url)
@@ -117,6 +120,14 @@ function populateWeather(response){
     const weather = response.data[0];
     addWeatherIcon(weather.weather);
     addInfo('',weather.temp+'\u00B0F',location,'temperature');
+    addInfo('Description: ',weather.weather.description,location,'description more-weather');
+    addInfo('Feels like: ',weather.app_temp +'\u00B0F',location,'feels-like more-weather');
+    addInfo('Rain: ',weather.precip,location,'rain more-weather');
+    addInfo('Sunrise: ',weather.sunrise,location,'sunrise more-weather');
+    addInfo('Sunset: ',weather.sunset,location,'sunset more-weather');
+    
+    //hide additional weather info
+    $(".weather-info li:gt(1)").addClass('hidden');
 }
 
 function addWeatherIcon(weather){
@@ -151,9 +162,11 @@ function populateCurrency(response){
     let mainCurr = `<div class="main-curr-group"><p class="main-currency">1 ${keys[0]}</p><img class="arrow" src="images/right-arrow.png" alt="arrow pointing right"></div>`;
     $(mainCurr).insertAfter($(".currency-title"));
 
-    for(let i = 1 ; i < 10; i++){
+    for(let i = 1 ; i < keys.length; i++){
         addInfo(keys[i]+': ',response.rates[keys[i]],'.currency-info','currency-item');
     }
+    //hide any currency conversions after the 5th
+    $(".currency-info li:gt(4)").addClass('hidden');
 }
 
 // ====================================================
@@ -182,7 +195,7 @@ function generateHolidays(countryCode){
 
 function populateHolidays(response){
     const holidayList = response.response.holidays;
-    for(let i=0; i<20; i++){
+    for(let i=0; i<holidayList.length; i++){
         const dateObj =holidayList[i].date.datetime;
         const date= dateObj.month+"/"+dateObj.day;
         const name=holidayList[i].name;
@@ -192,8 +205,10 @@ function populateHolidays(response){
         if(i!=0)
             if(name !== holidayList[i-1].name)
                 //if not a repeat add holiday to list
-                addInfo(date+': ', name, '.holiday-info', 'holiday-item');
+                    addInfo(date+': ', name, '.holiday-info', 'holiday-item');
     }
+    //hide any holidays after the 10th
+    $(".holiday-info li:gt(9)").addClass('hidden');
 }
 
 function addInfo(title, data, location, classId){
@@ -207,10 +222,35 @@ function handleBack(){
     });
 }
 
+function handleArrow(){
+    $('.more').on('click', function(event){
+        event.preventDefault();
+        let isDown = ($(this).css('transform')==='none');
+        //show/hide results
+        let location = event.currentTarget.id;
+        let num=9;
+        if(location=='currency') num = 4;
+        else if(location=='weather') num = 1;
+
+        if(isDown)
+            $(`.${location}-info li:gt(${num})`).removeClass('hidden');
+        else
+            $(`.${location}-info li:gt(${num})`).addClass('hidden');
+        //flip arrow
+        toggleArrow(this, isDown);
+    });
+}
+
+function toggleArrow(status, isDown){
+    if(isDown) $(status).css('transform','rotate(180deg)');
+    else $(status).css('transform','none');
+
+}
 
 function handleClicks(){
     handleSubmit();
     handleBack();
+    handleArrow();
 }
 
 $(handleClicks);
