@@ -51,6 +51,10 @@ function clearOld(){
     generateCurrency(basicInfo.currencies[0].code);
     generateHolidays(basicInfo.alpha2Code);
  }
+ 
+function addInfo(title, data, location, classId){
+    $(location).append(`<li class="${classId}">${title} ${data}</li>`);
+}
 
 // ====================================================
 // ================== General Info ====================
@@ -76,11 +80,13 @@ function generateGeneral(country){
 
 function populateGeneral(country){
     const location ='.general-info';
+    const currency = country.currencies[0];
     addFlag('Flag of '+country.name, country.flag, country.name);
     addInfo('Population: ', country.population.toLocaleString(), location,'population');
     addInfo('Capital City: ', country.capital, location,'capital');
     addInfo('Language: ', country.languages[0].name, location,'language');
-    addInfo('Region: ',country.subregion,location,'region')
+    addInfo('Currency: ',currency.name +" ("+currency.code + ") ",location,'money');
+    addInfo('Region: ',country.subregion,location,'region');
 }
 
 
@@ -95,6 +101,7 @@ function addFlag(caption, flag, countryName){
 // ================== Weather Info ====================
 // ====================================================
 function generateWeather(capital, countryCode){
+    if (countryCode='US') capital='Washington, DC';
     console.log('Retrieving weather for '+capital+", "+countryCode);
     const api_key = '5c604124a65f4971adf89d59ef661c0c';
     let url = `https://api.weatherbit.io/v2.0/current?city=${capital},${countryCode}&key=${api_key}&units=I`;
@@ -122,7 +129,6 @@ function populateWeather(response){
     addInfo('',weather.temp+'\u00B0F',location,'temperature');
     addInfo('Description: ',weather.weather.description,location,'description more-weather');
     addInfo('Feels like: ',weather.app_temp +'\u00B0F',location,'feels-like more-weather');
-    addInfo('Rain: ',weather.precip,location,'rain more-weather');
     addInfo('Sunrise: ',weather.sunrise,location,'sunrise more-weather');
     addInfo('Sunset: ',weather.sunset,location,'sunset more-weather');
     
@@ -211,9 +217,6 @@ function populateHolidays(response){
     $(".holiday-info li:gt(9)").addClass('hidden');
 }
 
-function addInfo(title, data, location, classId){
-    $(location).append(`<li class="${classId}">${title} ${data}</li>`);
-}
 
 function handleBack(){
     $('.back-txt').on('click', function(event){
@@ -228,14 +231,15 @@ function handleArrow(){
         let isDown = ($(this).css('transform')==='none');
         //show/hide results
         let location = event.currentTarget.id;
-        let num=9;
+        let num=1;
         if(location=='currency') num = 4;
-        else if(location=='weather') num = 1;
+        else if(location=='holiday') num = 9;
 
         if(isDown)
             $(`.${location}-info li:gt(${num})`).removeClass('hidden');
         else
             $(`.${location}-info li:gt(${num})`).addClass('hidden');
+
         //flip arrow
         toggleArrow(this, isDown);
     });
@@ -244,7 +248,6 @@ function handleArrow(){
 function toggleArrow(status, isDown){
     if(isDown) $(status).css('transform','rotate(180deg)');
     else $(status).css('transform','none');
-
 }
 
 function handleClicks(){

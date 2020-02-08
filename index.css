@@ -1,3 +1,4 @@
+/* general styling */
 *{
     box-sizing: border-box;
 }
@@ -8,17 +9,31 @@ h2{
     margin-top: 0;
     text-align: center;
 }
+ul{ 
+    margin: 0;
+}
+
+/* group stylings */
 .section{
     padding:5% 10%;
     width:80%;
     margin: 15px auto;
 }
-ul{ 
-    margin: 0;
+.general, .currency{
+    background-color: lavender;
 }
-img{
-    height: 100px;
+.weather, .holidays{
+    background-color: lavenderblush;
 }
+.general-info, .currency-info, .holiday-info, .more-weather{
+    list-style: circle;
+    line-height: 30px;
+}
+.currency-info, .holiday-info{
+    margin-bottom: 10px;
+}
+
+/* show more arrow  */
 .more{
     height: fit-content;
     margin: 0 auto;
@@ -34,6 +49,7 @@ img{
     width: 100%;
 }
 
+/* search section */
 .search{
     background-color: lavenderblush;
     height: 100vh;
@@ -54,18 +70,10 @@ form{
     margin: 5px auto;
 }
 
-.general, .currency{
-    background-color: lavender;
 
-}
-.weather, .holidays{
-    background-color: lavenderblush;
-
-}
-
-.general-info, .currency-info, .holiday-info, .more-weather{
-    list-style: circle;
-    line-height: 30px;
+/* weather */
+.flag{
+    width: 100%;
 }
 .flag-group{
     margin: 5px auto;
@@ -75,11 +83,10 @@ form{
     text-align: center;
     width: calc(100% + 40px);
 }
-
-
 .weather-info{
     list-style: none;
     display: flex;
+    justify-content: center;
     align-items: center;
     padding: 0;
     flex-wrap: wrap;
@@ -91,6 +98,8 @@ form{
     flex-basis: 100%;
     margin-left: 40px;
 }
+
+/* currency */
 .currency{
     display: flex;
     flex-wrap: wrap;
@@ -112,11 +121,16 @@ form{
 .currency-info{
     width: 50%;
     display: inline-block;
-    margin-left: 10px;
+    margin-left: auto;
+    margin-right: 20px;
 }
+
+/* return to top link */
 .back{
     text-align: center;
 }
+
+/* footer */
 footer{
     background-color: lavender;
     text-align: center;
@@ -124,6 +138,12 @@ footer{
 }
 footer p{
     margin: 0;
+}
+
+/* error */
+.error{
+    text-align: center;
+    width: 100%;
 }
 
 
@@ -140,6 +160,9 @@ footer p{
     .flag-group{
         width: 50%;
         float: left;
+    }
+    .population{
+        padding-top: 25px;
     }
     .left, .holidays{
         flex-basis: 50%;
