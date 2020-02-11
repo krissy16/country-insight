@@ -74,14 +74,21 @@ form{
     margin: 30% auto 10%;
     width: 90%;
 }
+label{
+    width: 70%;
+    max-width: 300px;
+    display: inline-block;
+    text-align: left;
+    margin-left: 8px;
+}
 #country{
     display: block;
     width: 70%;
+    max-width: 300px;
     margin: 15px auto 8px;
     border:0.1em solid white;
     background-color: rgb(255, 255, 255,0.6);
     font-family: 'Lato', sans-serif;
-
     padding: 7px 10px;
 }
 #country::placeholder{
@@ -106,6 +113,7 @@ form{
 /* weather */
 .flag{
     width: 100%;
+    max-width: 200px;
 }
 .flag-group{
     margin: 5px auto;
@@ -154,8 +162,7 @@ form{
 .currency-info{
     width: 50%;
     display: inline-block;
-    margin-left: auto;
-    margin-right: 20px;
+    margin: 16px 20px 10px auto;
 }
 
 /* return to top link */
@@ -202,7 +209,31 @@ footer a{
 }
 
 
+@media only screen and (min-width: 600px){
+    .instructions{
+        margin-top: 23%;
+    }
+    label{
+        width: 60%;
+        max-width: 500px;
+        margin-left: 10px;
+    }
+    #country{
+        width: 60%;
+        max-width: 500px;
+        margin-bottom: 15px;
+    }
+    .main-curr-group{
+        margin-left: 35px;
+    }
+    footer{
+        padding: 15px 10px;
+    }
+}
 @media only screen and (min-width: 800px){
+    .instructions{
+        margin: 15% auto 8%;
+    }
     .results{
         width: 80%;
         margin: 0 auto;
@@ -215,6 +246,9 @@ footer a{
     .flag-group{
         width: 50%;
         float: left;
+    }
+    .flag{
+        max-width: 300px;
     }
     .population{
         padding-top: 25px;
