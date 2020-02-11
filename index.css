@@ -104,9 +104,12 @@ label{
     color:white;
     transition: all 0.3s;
 }
-.submit-btn:hover{
-    color:#000000;
-    background-color:#fbd6ff;
+@keyframes backgroundChange{
+    from {background-color: #927496;}
+    to {background-color: #454582;}
+}
+.submit-btn:hover, .submit-btn:focus{
+    animation: backgroundChange 1s linear infinite alternate;
 }
 
 
@@ -179,7 +182,16 @@ label{
 }
 .back-txt:hover{
     color: white;
-
+    animation: colorChange 3s linear infinite alternate;
+}
+@keyframes bounce{
+    from {bottom: 0; }
+    to {bottom: 5px;}
+}
+.up-arrow{
+    display: inline-block;
+    position: relative; 
+    animation: bounce 0.7s linear infinite alternate;
 }
 
 /* footer */
@@ -195,6 +207,13 @@ footer a{
     text-decoration: none;
     color: inherit;
     font-style: italic;
+}@keyframes colorChange{
+    from {color: #fbd6ff;}
+    to {color: #ba90d3;}
+}
+footer a:hover{
+    animation: colorChange 0.5s linear infinite alternate;
+
 }
 .author{
     font-weight: 700;
