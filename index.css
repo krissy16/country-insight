@@ -4,6 +4,8 @@
 }
 body{
     margin: 0;
+    background: linear-gradient(#454582, #927496);
+    font-family: 'Lato', sans-serif;
 }
 h2{
     margin-top: 0;
@@ -18,12 +20,13 @@ ul{
     padding:5% 10%;
     width:80%;
     margin: 15px auto;
+    border-radius: 0.5em;
 }
 .general, .currency{
-    background-color: lavender;
+    background-color: #ba90d3;
 }
 .weather, .holidays{
-    background-color: lavenderblush;
+    background-color: #fbd6ff;
 }
 .general-info, .currency-info, .holiday-info, .more-weather{
     list-style: circle;
@@ -40,6 +43,7 @@ ul{
     display: block;
     width: 50px;
     flex-basis: 100%;
+    transition: 0.4s;
 }
 .more-arrow{
     display: block;
@@ -48,26 +52,54 @@ ul{
     height: 30px;
     width: 100%;
 }
+.down{
+    transform: rotateX(180deg);
+}
 
 /* search section */
 .search{
-    background-color: lavenderblush;
-    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url(images/background.jpg) no-repeat;
+    background-size: cover;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    color: white;
+    text-shadow: 0 1px 0 black;
 }
 form{
     text-align: center;
 }
+.instructions{
+    margin: 30% auto 10%;
+    width: 90%;
+}
 #country{
     display: block;
-    width: 100%;
+    width: 70%;
+    margin: 15px auto 8px;
+    border:0.1em solid white;
+    background-color: rgb(255, 255, 255,0.6);
+    font-family: 'Lato', sans-serif;
+
+    padding: 7px 10px;
+}
+#country::placeholder{
+    color: rgb(0, 0, 0,0.7);
 }
 .submit-btn{
-    display: inline-block;
-    margin: 5px auto;
+    display:inline-block;
+    padding:0.35em 1.2em;
+    border:0.1em solid white;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.12em;
+    background-color: rgba(0, 0, 0, 0.15);
+    color:white;
+    transition: all 0.3s;
+}
+.submit-btn:hover{
+    color:#000000;
+    background-color:#fbd6ff;
 }
 
 
@@ -113,6 +145,7 @@ form{
     align-self: flex-start;
     width:20%;
     text-align: center;
+    font-weight: 700;
 }
 .arrow{
     height: 30px;
@@ -128,17 +161,39 @@ form{
 /* return to top link */
 .back{
     text-align: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+.back-txt{
+    text-decoration: none;
+    color: rgb(255, 255, 255,0.75);
+    font-size: 1.2em;
+}
+.back-txt:hover{
+    color: white;
+
 }
 
 /* footer */
 footer{
-    background-color: lavender;
+    background-color: #9d77b3;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 8px;
 }
 footer p{
     margin: 0;
 }
+footer a{
+    text-decoration: none;
+    color: inherit;
+    font-style: italic;
+}
+.author{
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
 
 /* error */
 .error{
@@ -174,6 +229,7 @@ footer p{
 
 }
 
-.hidden, .hidden.results{
+.hidden{
     display: none;
+    margin: 0;
 }

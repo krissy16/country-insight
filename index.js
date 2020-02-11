@@ -12,7 +12,10 @@ function handleSubmit(){
 }
 
 function scrollTo(place){
-    $("html, body").stop().animate({scrollTop:$(`.${place}`).offset().top}, '500');
+    let offset = 0;
+    if(place === 'results') offset=15;
+    else if(place==='search') $('#country').focus();
+    $("html, body").stop().animate({scrollTop:$(`.${place}`).offset().top-offset}, '500');
 }
 
 function showHidden(){
@@ -28,7 +31,11 @@ function clearOld(){
     $('.holiday-info').empty();
     if($('.main-curr-group')) $('.main-curr-group').remove();
     $('.error').each(function(item){$(this).remove();});
-    $('.more').css('transform','none').removeClass('hidden');
+    $('.more').removeClass('down').removeClass('hidden');
+    
+    $('ul').addClass('hidden');
+    $('.currency').css('display','flex');
+    
 }
 
  function displayFailure(error, location){
@@ -40,8 +47,10 @@ function clearOld(){
         displayFailure('Main API Failed!', 'currency');
         displayFailure('Main API Failed!', 'holidays');
     }
+    else if(location==='currency') $('.currency').css('display','block');
 
-    $('.more').addClass('hidden');
+    $(`.${location} .more`).addClass('hidden');
+    $(`.${location} ul`).addClass('hidden');
 
  }
 
@@ -101,7 +110,7 @@ function addFlag(caption, flag, countryName){
 // ================== Weather Info ====================
 // ====================================================
 function generateWeather(capital, countryCode){
-    if (countryCode='US') capital='Washington, DC';
+    if (countryCode=='US') capital='Washington, DC';
     console.log('Retrieving weather for '+capital+", "+countryCode);
     const api_key = '5c604124a65f4971adf89d59ef661c0c';
     let url = `https://api.weatherbit.io/v2.0/current?city=${capital},${countryCode}&key=${api_key}&units=I`;
@@ -127,7 +136,7 @@ function populateWeather(response){
     const weather = response.data[0];
     addWeatherIcon(weather.weather);
     addInfo('',weather.temp+'\u00B0F',location,'temperature');
-    addInfo('Description: ',weather.weather.description,location,'description more-weather');
+    addInfo('Description: ',weather.weather.description+" in "+weather.city_name,location,'description more-weather');
     addInfo('Feels like: ',weather.app_temp +'\u00B0F',location,'feels-like more-weather');
     addInfo('Sunrise: ',weather.sunrise,location,'sunrise more-weather');
     addInfo('Sunset: ',weather.sunset,location,'sunset more-weather');
@@ -140,7 +149,7 @@ function addWeatherIcon(weather){
     $('.weather-info').append(`<li class="weather-icon"><img src="weather-icons/${weather.icon}.png" alt="${weather.description}"></li>`);
 }
 // ====================================================
-// ================== Currency Info ====================
+// ================== Currency Info ===================
 // ====================================================
 function generateCurrency(currencyCode){
     const url =`https://api.exchangerate-api.com/v4/latest/${currencyCode}`;
@@ -165,7 +174,7 @@ function populateCurrency(response){
     let keys = [];
     Object.keys(response.rates).map(key => keys.push(key));
 
-    let mainCurr = `<div class="main-curr-group"><p class="main-currency">1 ${keys[0]}</p><img class="arrow" src="images/right-arrow.png" alt="arrow pointing right"></div>`;
+    let mainCurr = `<div class="main-curr-group"><p class="main-currency">1 ${keys[0]} </p><img class="arrow" src="images/right-arrow.png" alt="arrow pointing right"></div>`;
     $(mainCurr).insertAfter($(".currency-title"));
 
     for(let i = 1 ; i < keys.length; i++){
@@ -217,7 +226,9 @@ function populateHolidays(response){
     $(".holiday-info li:gt(9)").addClass('hidden');
 }
 
-
+// ====================================================
+// ================== Back to Top =====================
+// ====================================================
 function handleBack(){
     $('.back-txt').on('click', function(event){
         event.preventDefault();
@@ -225,17 +236,20 @@ function handleBack(){
     });
 }
 
+// ====================================================
+// ================== More Arrow ======================
+// ====================================================
 function handleArrow(){
     $('.more').on('click', function(event){
         event.preventDefault();
-        let isDown = ($(this).css('transform')==='none');
+        let isDown = ($(this).hasClass('down'));
         //show/hide results
         let location = event.currentTarget.id;
         let num=1;
         if(location=='currency') num = 4;
         else if(location=='holiday') num = 9;
 
-        if(isDown)
+        if(!isDown)
             $(`.${location}-info li:gt(${num})`).removeClass('hidden');
         else
             $(`.${location}-info li:gt(${num})`).addClass('hidden');
@@ -246,10 +260,13 @@ function handleArrow(){
 }
 
 function toggleArrow(status, isDown){
-    if(isDown) $(status).css('transform','rotate(180deg)');
-    else $(status).css('transform','none');
+    if(isDown) $(status).removeClass('down');
+    else $(status).addClass('down');
 }
 
+// ====================================================
+// ================== Handle Everything ===============
+// ====================================================
 function handleClicks(){
     handleSubmit();
     handleBack();
