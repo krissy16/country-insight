@@ -12,10 +12,12 @@
 <body>
     <section class="search">
         <form>
-            <legend><h1 class="instructions">Enter a country below to see information about its current weather, holidays, currency and more!</h1></legend>
-            <label for="country">Full Country Name: </label>
-            <input id="country" type="text" name="country" placeholder="China" required>
-            <button class="submit-btn" type="submit">Research!</button>
+            <fieldset>
+                <legend><h1 class="instructions">Enter a country below to see information about its current weather, holidays, currency and more!</h1></legend>
+                <label for="country">Full Country Name: </label>
+                <input id="country" type="text" name="country" placeholder="China" required>
+                <button class="submit-btn" type="submit">Research!</button>
+            </fieldset>
         </form>
     </section>
     <section class="results hidden">
@@ -50,7 +52,6 @@
             APIs
         </p>
     </footer>
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="index.js"></script>
