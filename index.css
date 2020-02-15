@@ -17,7 +17,7 @@ ul{
 
 /* group stylings */
 .section{
-    padding:5% 10%;
+    padding:20px 10%;
     width:80%;
     margin: 15px auto;
     border-radius: 0.5em;
@@ -104,7 +104,7 @@ label{
     padding:0.35em 1.2em;
     font-size: inherit;
     border:0.1em solid white;
-    margin:0 0.3em 0.3em 0;
+    margin-bottom:4em;
     border-radius:0.12em;
     background-color: rgba(0, 0, 0, 0.15);
     color:white;
@@ -251,6 +251,9 @@ footer a:hover{
         max-width: 500px;
         margin-bottom: 15px;
     }
+    .section{
+        padding: 40px 10%;
+    }
     .main-curr-group{
         margin-left: 35px;
     }
@@ -268,6 +271,9 @@ footer a:hover{
         margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
+    }
+    .section{
+        padding: 45px 70px;
     }
     .general{
         flex-basis: 100%;
