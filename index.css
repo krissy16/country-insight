@@ -14,12 +14,6 @@ h2{
 ul{ 
     margin: 0;
 }
-fieldset{
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
-}
 
 /* group stylings */
 .section{
@@ -76,11 +70,20 @@ fieldset{
 form{
     text-align: center;
 }
+fieldset{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
 legend{
     width: 100%;
     text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10%;
 }
-.instructions{
+fieldset{
     margin: 30% auto 10%;
     width: 90%;
 }
@@ -244,7 +247,7 @@ footer a:hover{
 
 
 @media only screen and (min-width: 600px){
-    .instructions{
+    fieldset{
         margin-top: 23%;
     }
     label{
@@ -269,7 +272,7 @@ footer a:hover{
 }
 
 @media only screen and (min-width: 800px){
-    .instructions{
+    fieldset{
         margin: 15% auto 8%;
     }
     .results{
